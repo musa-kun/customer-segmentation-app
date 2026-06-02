@@ -33,11 +33,11 @@ def load_model_and_data():
         data['Cluster'] = kmeans.predict(scaler.transform(x))
         return kmeans, scaler, data
     except FileNotFoundError:
-        return None, None
+        return None, None, None
 kmeans, scaler, data = load_model_and_data()
 
-income = st.number_input("Annual Income (k$)"), min_value=0, max_value=200, value=50
-score = st.number_input("Spending Score (1-100)"), min_value=1, max_value=100, value=50
+income = st.number_input("Annual Income (k$)", min_value=0, max_value=200, value=50)
+score = st.number_input("Spending Score (1-100)", min_value=1, max_value=100, value=50)
 
 if st.button("Predict Cluster"):
 
@@ -48,9 +48,13 @@ if st.button("Predict Cluster"):
     st.write(f"Customer belongs to Cluster {predicted_cluster}")
 
 # this shows scatter_plot
- if data is not None:
-        fig = px.scatter(data, x="Annual Income (k$)", y="Spending Score (1-100)",
-                         color="Cluster", title="Customer Segmentation Result")
-        st.plotly_chart(fig)
-
-
+# this shows scatter_plot
+if data is not None:
+    fig = px.scatter(
+        data,
+        x="Annual Income (k$)",
+        y="Spending Score (1-100)",
+        color="Cluster",
+        title="Customer Segmentation Result"
+    )
+    st.plotly_chart(fig)
